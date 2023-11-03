@@ -1,3 +1,4 @@
+
 const ele = document.getElementById('AddScene');
 ele.addEventListener('click', function () {
     loadThreeJS(document.getElementById('RemoveScene'));
@@ -42,18 +43,33 @@ async function loadThreeJS(btn) {
     })
 
     container.style.position = 'absolute';
-    container.style.left = 700 + 'px';
+    container.style.left = 300 + 'px';
 
-    
+
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute('position', new THREE.BufferAttribute(NASTR.vertices, 3));
     geometry.setAttribute('color', new THREE.BufferAttribute(NASTR.colors, 3));
-    const material = new THREE.MeshBasicMaterial({ vertexColors: true });
-    var cube = new THREE.Mesh(geometry, material); 
+    var material = new THREE.MeshBasicMaterial({ vertexColors: true });
+    var cube = new THREE.Mesh(geometry, material);
     cube.position.z = 3;
     cube.position.y = 0;
     cube.position.x = 0;
     scene.add(cube);
+
+    function inform() {
+        const geometryCube = cube.geometry;
+        const positionAttribute = geometryCube.getAttribute('position');
+        const vertex = new THREE.Vector3();
+        vertex.fromBufferAttribute(positionAttribute, 2);
+        console.log(cube.localToWorld(vertex))
+
+        //debugger;
+        //cube.geometry.attributes.color.array[0]=0;
+        //console.log(cube.geometry.attributes.color.array[0])
+           
+    }
+
+
 
 
     animate();
@@ -78,6 +94,7 @@ async function loadThreeJS(btn) {
         }
 
         renderer.render(scene, camera);
+        inform();
         //debugger;
     }
 
